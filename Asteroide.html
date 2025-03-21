@@ -39,6 +39,10 @@
             font-size: 11px;
         }
 
+        select option {
+            font-size: 10px;
+        }
+
         /* Style des champs de saisie */
         input[id$="_bonus"] {
             background-color: #ffff99 !important;
@@ -177,21 +181,23 @@
 
          /* Centrer le container et le placer à 1 cm du bord supérieur */
         .container3 {
-            margin: 0 auto;
-            width: fit-content;
             text-align: center;
             position: absolute;
-            top: 3.3cm;
+            top: 3.3cm; /* Positionner à 1 cm du haut de l'écran */
             left: 50%;
             transform: translateX(-50%); /* Centrer horizontalement */
-            width: 70%;
-            margin-bottom: 30px; /* Ajout d'un espace entre container et table-container */
+            width: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0px;
+            margin-top: 10px;
         }
         .container3 label {
             margin-right: 0px; /* Espace entre le label et son input */
         }
         .container3 input[type="checkbox"] {
-            margin-right: 40px; /* Espace entre le premier input et le label suivant */
+            margin-right: 15px; /* Espace entre le premier input et le label suivant */
         }
 
         /* Style pour case à cocher : ronde avec fond transparent */
@@ -274,18 +280,8 @@
     </div>
     <div class="container3">
         <div class="input-row">
-            <label for="option1">Facile</label>
-            <input type="checkbox" id="option1" name="option" value="1" checked>
-        </div>
-        <div class="input-row">
-            <label for="option2">Moyen</label>
-            <input type="checkbox" id="option2" name="option" value="2">
             <label for="target">Objectif de la mission</label>
             <input type="text" id="target">
-        </div>
-        <div class="input-row">
-            <label for="option3">Difficile</label>
-            <input type="checkbox" id="option3" name="option" value="3">
         </div>
     </div>
 
@@ -423,7 +419,7 @@
             </tr>
 
             <tr class="grey-row"> <!-- Ligne grisée -->
-                <td>Puissance collective des vaisseaux</td>
+                <td>Performance collective</td>
                 <td colspan="6"><input type="text" id="puis_col" maxlength="2" style="width: 30px; text-align: center;" readonly></td>
             </tr>
 
@@ -471,23 +467,9 @@
     </div>
 
     <script>
-
-        let modejeu = 1; // Par défaut, Option 1 est cochée
         let mission = 0;
         let Nbjoueur;
 
-        document.querySelectorAll('input[type="checkbox"][name="option"]').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    modejeu = this.value;
-                    document.querySelectorAll('input[type="checkbox"][name="option"]').forEach(other => {
-                        if (other !== this) other.checked = false;
-                    });
-                updateTableColumns();
-                }
-            });
-        });
-       
         /* Fonction permettant de calculer la somme des valeurs sélectionnées */
         function calculate() {
 
@@ -569,7 +551,6 @@
             document.getElementById("puis_col").value = collectif;
 
             <!-- Calcul de la performance finale -->
-
             let X = [0, 0, 0, 0, 0, 0, 0]; // Indice de 1 à 6 (X[0] non utilisé)
             let cnsaChecked = document.getElementById('cnsa').checked;
             X[1] = cnsaChecked ? 1 : 0;
@@ -587,25 +568,18 @@
             let bb = 0;
             if (Nbjoueur > 3) {bb = 8;}
             
-            console.log ("Nbjoueur & bb",Nbjoueur,bb);
-
             let cnsa_bl = parseInt(document.getElementById("cnsa_bleu").value) || 0;
             let esa_bl = parseInt(document.getElementById("esa_bleu").value) || 0;
             let isro_bl = parseInt(document.getElementById("isro_bleu").value) || 0;
             let jaxa_bl = parseInt(document.getElementById("jaxa_bleu").value) || 0;
             let nasa_bl = parseInt(document.getElementById("nasa_bleu").value) || 0;
             let rosco_bl = parseInt(document.getElementById("rosco_bleu").value) || 0;
-
-            console.log ("cnsa_bl",cnsa_bl);
-
             if (cnsa_bl !== 0) {cnsa_bl = cnsa_bl + bb;}
             if (esa_bl !== 0) {esa_bl = cnsa_bl + bb;}
             if (isro_bl !== 0) {isro_bl = isro_bl + bb;}
             if (jaxa_bl !== 0) {jaxa_bl = jaxa_bl + bb;}
             if (nasa_bl !== 0) {nasa_bl = nasa_bl + bb;}
             if (rosco_bl !== 0) {rosco_bl = rosco_bl + bb;}
-
-            console.log ("cnsa_bl",cnsa_bl);
 
             let cnsa_b = parseInt(document.getElementById("cnsa_bonus").value) || 0;
             let esa_b = parseInt(document.getElementById("esa_bonus").value) || 0;
@@ -622,11 +596,9 @@
                 rosco_b = rosco_b * 2;
             }
 
-            console.log ("cnsa_b",cnsa_b);
-
             let res_cnsa = collectif + cnsa_bl + cnsa_b;
             let res_esa = collectif + esa_bl + esa_b;
-            let res_jaxa = collectif + isro_bl + jaxa_b;
+            let res_jaxa = collectif + jaxa_bl + jaxa_b;
             let res_isro = collectif + isro_bl + isro_b;
             let res_nasa = collectif + nasa_bl + nasa_b;
             let res_rosco = collectif + rosco_bl + rosco_b;
@@ -701,29 +673,13 @@
             let Nbjoueur = X[1] + X[2]+ X[3] + X[4] + X[5] + X[6]
 
             mission = 0
-            if (modejeu == 1) {
-                if (Nbjoueur == 2) {mission = 110;
-                } else if (Nbjoueur == 3) { mission = 175;
-                } else if (Nbjoueur == 4) { mission = 210;
-                } else if (Nbjoueur == 5) { mission = 270;
-                } else if (Nbjoueur == 6) { mission = 320;
-                }
-            } else if (modejeu == 2) {
-                if (Nbjoueur == 2) {mission = 130;
-                } else if (Nbjoueur == 3) { mission = 195;
-                } else if (Nbjoueur == 4) { mission = 220;
-                } else if (Nbjoueur == 5) { mission = 280;
-                } else if (Nbjoueur == 6) { mission = 330;
-                }
-           } else if (modejeu == 3) {
-                if (Nbjoueur == 2) {mission = 145;
-                } else if (Nbjoueur == 3) { mission = 215;
-                } else if (Nbjoueur == 4) { mission = 280;
-                } else if (Nbjoueur == 5) { mission = 290;
-                } else if (Nbjoueur == 6) { mission = 340;
-                }
+            if (Nbjoueur == 2) {mission = 140;
+            } else if (Nbjoueur == 3) { mission = 185;
+            } else if (Nbjoueur == 4) { mission = 235;
+            } else if (Nbjoueur == 5) { mission = 280;
+            } else if (Nbjoueur == 6) { mission = 320;
             }
-
+ 
             document.getElementById("target").value = mission;
 
             let table = document.querySelector('table');
