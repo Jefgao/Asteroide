@@ -587,14 +587,6 @@
             let jaxa_b = parseInt(document.getElementById("jaxa_bonus").value) || 0;
             let nasa_b = parseInt(document.getElementById("nasa_bonus").value) || 0;
             let rosco_b = parseInt(document.getElementById("rosco_bonus").value) || 0;
-            if (Nbjoueur > 3) {
-                cnsa_b = cnsa_b * 2;
-                esa_b = esa_b * 2;
-                isro_b = isro_b * 2;
-                jaxa_b = jaxa_b * 2;
-                nasa_b = nasa_b * 2;
-                rosco_b = rosco_b * 2;
-            }
 
             let res_cnsa = collectif + cnsa_bl + cnsa_b;
             let res_esa = collectif + esa_bl + esa_b;
