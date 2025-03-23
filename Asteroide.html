@@ -425,12 +425,12 @@
 
             <tr>
                 <td>Objectif individuel (bleu) réussi ?</td>
-                <td><select id="cnsa_bleu" onchange="calculate()"><option value="0">Non</option><option value="12">Oui</option></select>
-                <td><select id="esa_bleu" onchange="calculate()"><option value="0">Non</option><option value="12">Oui</option></select>
-                <td><select id="isro_bleu" onchange="calculate()"><option value="0">Non</option><option value="12">Oui</option></select>
-                <td><select id="jaxa_bleu" onchange="calculate()"><option value="0">Non</option><option value="12">Oui</option></select>
-                <td><select id="nasa_bleu" onchange="calculate()"><option value="0">Non</option><option value="12">Oui</option></select>
-                <td><select id="rosco_bleu" onchange="calculate()"><option value="0">Non</option><option value="12">Oui</option></select>
+                <td><select id="cnsa_bleu" onchange="calculate()"><option value="0">Non</option><option value="15">Oui</option></select>
+                <td><select id="esa_bleu" onchange="calculate()"><option value="0">Non</option><option value="15">Oui</option></select>
+                <td><select id="isro_bleu" onchange="calculate()"><option value="0">Non</option><option value="15">Oui</option></select>
+                <td><select id="jaxa_bleu" onchange="calculate()"><option value="0">Non</option><option value="15">Oui</option></select>
+                <td><select id="nasa_bleu" onchange="calculate()"><option value="0">Non</option><option value="15">Oui</option></select>
+                <td><select id="rosco_bleu" onchange="calculate()"><option value="0">Non</option><option value="15">Oui</option></select>
             </tr>
 
             <tr>
@@ -566,7 +566,7 @@
             X[6] = roscoChecked ? 1 : 0;
             let Nbjoueur = X[1] + X[2] + X[3] + X[4] + X[5] + X[6];
             let bb = 0;
-            if (Nbjoueur > 3) {bb = 8;}
+            if (Nbjoueur > 3) {bb = 0;}
             
             let cnsa_bl = parseInt(document.getElementById("cnsa_bleu").value) || 0;
             let esa_bl = parseInt(document.getElementById("esa_bleu").value) || 0;
@@ -665,8 +665,8 @@
             let Nbjoueur = X[1] + X[2]+ X[3] + X[4] + X[5] + X[6]
 
             mission = 0
-            if (Nbjoueur == 2) {mission = 140;
-            } else if (Nbjoueur == 3) { mission = 185;
+            if (Nbjoueur == 2) {mission = 145;
+            } else if (Nbjoueur == 3) { mission = 190;
             } else if (Nbjoueur == 4) { mission = 235;
             } else if (Nbjoueur == 5) { mission = 280;
             } else if (Nbjoueur == 6) { mission = 320;
