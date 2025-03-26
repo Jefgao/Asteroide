@@ -413,9 +413,8 @@
             </tr>
 
             <tr>
-                <td>Total objectifs collectifs (rouges)</td>
-                <td colspan="6"><input type="text" id="obj_rouges" onchange="calculate()" maxlength="2" style="width: 30px; text-align: center;"></td>
-                </td>
+                <td>Décollages réussis</td>
+                <td colspan="6"><select id="bonus_dec" onchange="calculate()"><option value="0">Non</option><option value="5">Oui</option></select></td>
             </tr>
 
             <tr class="grey-row"> <!-- Ligne grisée -->
@@ -424,7 +423,7 @@
             </tr>
 
             <tr>
-                <td>Objectif individuel (bleu) réussi ?</td>
+                <td>Objectif individuel réussi ?</td>
                 <td><select id="cnsa_bleu" onchange="calculate()"><option value="0">Non</option><option value="15">Oui</option></select>
                 <td><select id="esa_bleu" onchange="calculate()"><option value="0">Non</option><option value="15">Oui</option></select>
                 <td><select id="isro_bleu" onchange="calculate()"><option value="0">Non</option><option value="15">Oui</option></select>
@@ -472,6 +471,21 @@
 
         /* Fonction permettant de calculer la somme des valeurs sélectionnées */
         function calculate() {
+
+            let X = [0, 0, 0, 0, 0, 0, 0]; // Indice de 1 à 6 (X[0] non utilisé)
+            let cnsaChecked = document.getElementById('cnsa').checked;
+            X[1] = cnsaChecked ? 1 : 0;
+            let esaChecked = document.getElementById('esa').checked;
+            X[2] = esaChecked ? 1 : 0;
+            let isroChecked = document.getElementById('isro').checked;
+            X[3] = isroChecked ? 1 : 0;
+            let jaxaChecked = document.getElementById('jaxa').checked;
+            X[4] = jaxaChecked ? 1 : 0;
+            let nasaChecked = document.getElementById('nasa').checked;
+            X[5] = nasaChecked ? 1 : 0;
+            let roscoChecked = document.getElementById('rosco').checked;
+            X[6] = roscoChecked ? 1 : 0;
+            let Nbjoueur = X[1] + X[2] + X[3] + X[4] + X[5] + X[6];
 
             <!-- Calcul de la puissance du vaisseau CNSA -->
             let cnsa1 = parseInt(document.getElementById("cnsa_base").value) || 0;
@@ -546,25 +560,11 @@
             document.getElementById("rosco_pb").value = pbrosco;
 
             <!-- Calcul de la puissance collective des vaisseaux -->
-            let rouges = parseInt(document.getElementById("obj_rouges").value) || 0;
-            let collectif = pbcnsa + pbesa + pbisro + pbjaxa + pbnasa + pbrosco + rouges;
+            let bonusdec = parseInt(document.getElementById("bonus_dec").value) || 0;
+            let collectif = pbcnsa + pbesa + pbisro + pbjaxa + pbnasa + pbrosco + bonusdec * Nbjoueur;
             document.getElementById("puis_col").value = collectif;
 
             <!-- Calcul de la performance finale -->
-            let X = [0, 0, 0, 0, 0, 0, 0]; // Indice de 1 à 6 (X[0] non utilisé)
-            let cnsaChecked = document.getElementById('cnsa').checked;
-            X[1] = cnsaChecked ? 1 : 0;
-            let esaChecked = document.getElementById('esa').checked;
-            X[2] = esaChecked ? 1 : 0;
-            let isroChecked = document.getElementById('isro').checked;
-            X[3] = isroChecked ? 1 : 0;
-            let jaxaChecked = document.getElementById('jaxa').checked;
-            X[4] = jaxaChecked ? 1 : 0;
-            let nasaChecked = document.getElementById('nasa').checked;
-            X[5] = nasaChecked ? 1 : 0;
-            let roscoChecked = document.getElementById('rosco').checked;
-            X[6] = roscoChecked ? 1 : 0;
-            let Nbjoueur = X[1] + X[2] + X[3] + X[4] + X[5] + X[6];
             let bb = 0;
             if (Nbjoueur > 3) {bb = 0;}
             
@@ -575,7 +575,7 @@
             let nasa_bl = parseInt(document.getElementById("nasa_bleu").value) || 0;
             let rosco_bl = parseInt(document.getElementById("rosco_bleu").value) || 0;
             if (cnsa_bl !== 0) {cnsa_bl = cnsa_bl + bb;}
-            if (esa_bl !== 0) {esa_bl = cnsa_bl + bb;}
+            if (esa_bl !== 0) {esa_bl = esa_bl + bb;}
             if (isro_bl !== 0) {isro_bl = isro_bl + bb;}
             if (jaxa_bl !== 0) {jaxa_bl = jaxa_bl + bb;}
             if (nasa_bl !== 0) {nasa_bl = nasa_bl + bb;}
@@ -587,7 +587,7 @@
             let jaxa_b = parseInt(document.getElementById("jaxa_bonus").value) || 0;
             let nasa_b = parseInt(document.getElementById("nasa_bonus").value) || 0;
             let rosco_b = parseInt(document.getElementById("rosco_bonus").value) || 0;
-
+  
             let res_cnsa = collectif + cnsa_bl + cnsa_b;
             let res_esa = collectif + esa_bl + esa_b;
             let res_jaxa = collectif + jaxa_bl + jaxa_b;
@@ -665,11 +665,11 @@
             let Nbjoueur = X[1] + X[2]+ X[3] + X[4] + X[5] + X[6]
 
             mission = 0
-            if (Nbjoueur == 2) {mission = 125;
-            } else if (Nbjoueur == 3) { mission = 165;
-            } else if (Nbjoueur == 4) { mission = 210;
-            } else if (Nbjoueur == 5) { mission = 265;
-            } else if (Nbjoueur == 6) { mission = 315;
+            if (Nbjoueur == 2) {mission = 120;
+            } else if (Nbjoueur == 3) { mission = 160;
+            } else if (Nbjoueur == 4) { mission = 205;
+            } else if (Nbjoueur == 5) { mission = 255;
+            } else if (Nbjoueur == 6) { mission = 305;
             }
  
             document.getElementById("target").value = mission;
